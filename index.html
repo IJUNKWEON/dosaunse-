@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도사운세 - 전통 사주 운세</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- 도사 인트로 화면 -->
+    <div id="mystical-intro-overlay" class="mystical-intro-overlay active" data-eta="3">
+        <!-- 한지 배경 -->
+        <div class="intro-paper-bg"></div>
+        
+        <!-- 메인 컨텐츠 -->
+        <div class="intro-content">
+            <!-- 큰 도장 -->
+            <div class="intro-seal">
+                <div class="seal-circle">
+                    <span class="seal-text">吉</span>
+                </div>
+            </div>
+            
+            <!-- 제목 -->
+            <h1 class="intro-title">도사운세</h1>
+            
+            <!-- 부제목 -->
+            <p class="intro-subtitle">전통 사주로 보는 당신의 운명</p>
+            
+            <!-- 로딩 바 -->
+            <div class="intro-loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            
+            <!-- 상태 메시지 -->
+            <p class="intro-status">사주를 펼치는 중...</p>
+            
+            <!-- 카운트다운 -->
+            <p class="intro-countdown">
+                <span id="countdown-number">3</span>초 후 입장
+            </p>
+        </div>
+        
+        <!-- 장식 요소 -->
+        <div class="intro-decoration top-left">卍</div>
+        <div class="intro-decoration top-right">卍</div>
+        <div class="intro-decoration bottom-left">卍</div>
+        <div class="intro-decoration bottom-right">卍</div>
+    </div>
+
+    <!-- 생년월일 입력 페이지 -->
+    <div id="birth-input-page" class="page">
+        <div class="container">
+            <header>
+                <h1 class="logo">도사운세</h1>
+                <p class="subtitle">정확한 운세를 위해 생년월일을 입력해주세요</p>
+            </header>
+            
+            <form id="birth-form" class="birth-form">
+                <div class="form-group">
+                    <label for="birth-date">생년월일</label>
+                    <input type="date" id="birth-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="birth-time">출생시간</label>
+                    <select id="birth-time" required>
+                        <option value="">선택하세요</option>
+                        <option value="자시">자시 (23:00~01:00)</option>
+                        <option value="축시">축시 (01:00~03:00)</option>
+                        <option value="인시">인시 (03:00~05:00)</option>
+                        <option value="묘시">묘시 (05:00~07:00)</option>
+                        <option value="진시">진시 (07:00~09:00)</option>
+                        <option value="사시">사시 (09:00~11:00)</option>
+                        <option value="오시">오시 (11:00~13:00)</option>
+                        <option value="미시">미시 (13:00~15:00)</option>
+                        <option value="신시">신시 (15:00~17:00)</option>
+                        <option value="유시">유시 (17:00~19:00)</option>
+                        <option value="술시">술시 (19:00~21:00)</option>
+                        <option value="해시">해시 (21:00~23:00)</option>
+                        <option value="모름">모름 (시간을 모름)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="gender">성별</label>
+                    <select id="gender">
+                        <option value="">선택하지 않음</option>
+                        <option value="male">남성</option>
+                        <option value="female">여성</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="calendar-toggle">
+                        <span class="label-text">달력 구분</span>
+                        <div class="toggle-container">
+                            <label>
+                                <input type="radio" name="calendar-type" value="solar" checked>
+                                <span>양력</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="calendar-type" value="lunar">
+                                <span>음력</span>
+                            </label>
+                        </div>
+                    </label>
+                    <div class="calendar-conversion-note" id="lunar-conversion-note">
+                        📅 음력 선택 시 자동으로 양력으로 변환되어 운세가 계산됩니다
+                    </div>
+                </div>
+                
+                <button type="submit" class="submit-btn">운세 보러가기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 메인 페이지 -->
+    <div id="main-page" class="page">
+        <div class="container">
+            <header>
+                <div class="header-content">
+                    <div class="header-main">
+                        <h1 class="logo">도사운세</h1>
+                        <p class="subtitle">전통 사주로 보는 당신의 운명</p>
+                    </div>
+                    <div class="header-actions">
+                        <a href="https://www.youtube.com/@dosaunse" target="_blank" class="youtube-btn" title="도사운세 유튜브 채널">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                            </svg>
+                            <span>유튜브 채널</span>
+                        </a>
+                        <button class="reset-btn" onclick="resetUserData()" title="생년월일 정보 다시 입력하기">
+                            프로필 다시 입력하기
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="fortune-grid">
+                <div class="fortune-card" data-fortune="today">
+                    <div class="card-icon">🌅</div>
+                    <h3>오늘의 운세</h3>
+                    <p>오늘 하루의 운세를 확인해보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="tomorrow">
+                    <div class="card-icon">🌄</div>
+                    <h3>내일의 운세</h3>
+                    <p>내일의 운세를 미리 알아보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="month">
+                    <div class="card-icon">🌙</div>
+                    <h3>이달의 운세</h3>
+                    <p>이번 달 전체 운세를 확인하세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="year">
+                    <div class="card-icon">🎋</div>
+                    <h3>올해의 운세</h3>
+                    <p>올해 한 해의 운세를 알아보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="lifetime">
+                    <div class="card-icon">🏔️</div>
+                    <h3>평생 운세</h3>
+                    <p>평생에 걸친 운명을 살펴보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="tojung">
+                    <div class="card-icon">📜</div>
+                    <h3>토정비결</h3>
+                    <p>전통 토정비결로 보는 운세</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="love">
+                    <div class="card-icon">💕</div>
+                    <h3>애정운</h3>
+                    <p>연애와 결혼운을 알아보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="wealth">
+                    <div class="card-icon">💰</div>
+                    <h3>재물운</h3>
+                    <p>재물과 금전운을 확인하세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="business">
+                    <div class="card-icon">🏢</div>
+                    <h3>사업운</h3>
+                    <p>사업과 직업운을 살펴보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="study">
+                    <div class="card-icon">📚</div>
+                    <h3>학업운</h3>
+                    <p>학업과 시험운을 확인하세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="compatibility">
+                    <div class="card-icon">💏</div>
+                    <h3>궁합</h3>
+                    <p>상대방과의 궁합을 알아보세요</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="zodiac-sign">
+                    <div class="card-icon">🐉</div>
+                    <h3>띠별 운세</h3>
+                    <p>12띠 중 내 띠로 보는 오늘의 운세</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="past-life">
+                    <div class="card-icon">🔮</div>
+                    <h3>전생 운세</h3>
+                    <p>당신은 전생에 어떤 사람이었을까요?</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="wish-fortune">
+                    <div class="card-icon">✨</div>
+                    <h3>소원 성취 운세</h3>
+                    <p>소원을 적어보세요. 운세가 알려드립니다</p>
+                </div>
+                
+                <div class="fortune-card" data-fortune="constellation">
+                    <div class="card-icon">🌟</div>
+                    <h3>별자리 운세</h3>
+                    <p>12 별자리로 오늘의 기운을 알아보세요</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 운세 결과 페이지 -->
+    <div id="fortune-result-page" class="page">
+        <div class="container">
+            <header>
+                <button class="back-btn" onclick="goToMain()">← 돌아가기</button>
+                <h1 id="fortune-title" class="fortune-title"></h1>
+            </header>
+            
+            <div class="fortune-content">
+                <div class="user-info">
+                    <p id="user-birth-info"></p>
+                </div>
+                
+                <div class="fortune-result">
+                    <div id="fortune-text" class="fortune-text"></div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="share-btn" onclick="shareResult()">결과 공유하기</button>
+                    <button class="save-image-btn" onclick="saveResultImage()">🖼️ 이미지로 저장하기</button>
+                    <button class="back-to-main-btn" onclick="goToMain()">다른 운세 보기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 소원 성취 운세 입력 페이지 -->
+    <div id="wish-input-page" class="page">
+        <div class="container">
+            <header>
+                <button class="back-btn" onclick="goToMain()">← 돌아가기</button>
+                <h1 class="fortune-title">소원 성취 운세</h1>
+                <p class="subtitle">소원을 적어주시면 운세로 알려드립니다</p>
+            </header>
+            
+            <form id="wish-form" class="birth-form">
+                <div class="form-group">
+                    <label for="wish-text">소원을 적어주세요</label>
+                    <textarea id="wish-text" rows="4" placeholder="이루고 싶은 소원을 구체적으로 적어주세요..." required></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">소원 운세 보기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 궁합 입력 페이지 -->
+    <div id="compatibility-input-page" class="page">
+        <div class="container">
+            <header>
+                <button class="back-btn" onclick="goToMain()">← 돌아가기</button>
+                <h1 class="fortune-title">궁합 보기</h1>
+                <p class="subtitle">두 사람의 궁합을 확인해보세요</p>
+            </header>
+            
+            <!-- 내 정보 표시 -->
+            <div class="my-info-section">
+                <h3>👤 내 정보</h3>
+                <div class="info-card">
+                    <p id="my-birth-info-display"></p>
+                </div>
+            </div>
+            
+            <!-- 상대방 정보 입력 -->
+            <div class="partner-info-section">
+                <h3>💕 상대방 정보</h3>
+                <form id="compatibility-form" class="birth-form">
+                    <div class="form-group">
+                        <label for="partner-birth-date">상대방 생년월일</label>
+                        <input type="date" id="partner-birth-date" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="partner-birth-time">상대방 출생시간</label>
+                        <select id="partner-birth-time" required>
+                            <option value="">선택하세요</option>
+                            <option value="자시">자시 (23:00~01:00)</option>
+                            <option value="축시">축시 (01:00~03:00)</option>
+                            <option value="인시">인시 (03:00~05:00)</option>
+                            <option value="묘시">묘시 (05:00~07:00)</option>
+                            <option value="진시">진시 (07:00~09:00)</option>
+                            <option value="사시">사시 (09:00~11:00)</option>
+                            <option value="오시">오시 (11:00~13:00)</option>
+                            <option value="미시">미시 (13:00~15:00)</option>
+                            <option value="신시">신시 (15:00~17:00)</option>
+                            <option value="유시">유시 (17:00~19:00)</option>
+                            <option value="술시">술시 (19:00~21:00)</option>
+                            <option value="해시">해시 (21:00~23:00)</option>
+                            <option value="모름">모름 (시간을 모름)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="partner-gender">상대방 성별</label>
+                        <select id="partner-gender">
+                            <option value="">선택하지 않음</option>
+                            <option value="male">남성</option>
+                            <option value="female">여성</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="calendar-toggle">
+                            <span class="label-text">달력 구분</span>
+                            <div class="toggle-container">
+                                <label>
+                                    <input type="radio" name="partner-calendar-type" value="solar" checked>
+                                    <span>양력</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="partner-calendar-type" value="lunar">
+                                    <span>음력</span>
+                                </label>
+                            </div>
+                        </label>
+                        <div class="calendar-conversion-note" id="partner-lunar-conversion-note">
+                            📅 음력 선택 시 자동으로 양력으로 변환되어 궁합이 계산됩니다
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">궁합 보기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 오버레이 (운세 불러오는 중) -->
+    <div id="dosa-loading-overlay" class="dosa-loading-overlay">
+        <div class="dosa-loading-container">
+            <div class="loading-seal">吉</div>
+            <h3 class="loading-title">운세를 분석하고 있습니다</h3>
+            <p class="loading-message">정밀한 사주 분석을 위해 다소 시간이 걸립니다...</p>
+            <p class="loading-submessage">도사님이 생년월일을 기반으로 깊이 있게 풀이하고 있습니다</p>
+            <div class="loading-spinner">
+                <div class="spinner-bar"></div>
+                <div class="spinner-bar"></div>
+                <div class="spinner-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>주식회사 대게 | All Rights Reserved</p>
+            <p>Email: daegye54@gmail.com</p>
+            <div class="footer-links">
+                <a href="#" onclick="showModal('terms')">이용약관</a>
+                <a href="#" onclick="showModal('privacy')">개인정보처리방침</a>
+                <a href="#" onclick="showModal('contact')">고객센터</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 모달 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
