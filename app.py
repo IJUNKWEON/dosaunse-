@@ -681,9 +681,9 @@ def script():
 from admin_routes import admin_bp, log_access
 app.register_blueprint(admin_bp)
 
-if __name__ == '__main__':
-    # 데이터베이스 초기화
-    with app.app_context():
+# 데이터베이스 초기화 (항상 실행)
+with app.app_context():
+    try:
         db.create_all()
         logger.info("데이터베이스 테이블 초기화 완료")
         
@@ -694,6 +694,10 @@ if __name__ == '__main__':
             db.session.add(admin)
             db.session.commit()
             logger.info("기본 관리자 계정 생성됨 (admin / admin1234)")
+    except Exception as e:
+        logger.error(f"데이터베이스 초기화 실패: {e}")
+
+if __name__ == '__main__':
     
     try:
         # 포트 설정 (환경 변수 또는 기본값)
