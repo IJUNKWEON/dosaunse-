@@ -1175,88 +1175,269 @@ footer {
 }
 
 /* 📱 반응형 디자인 */
+/* 📱 모바일 최적화 */
 @media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    /* 헤더 */
     .header-content {
         flex-direction: column;
-        gap: 20px;
-        padding: 20px;
+        gap: 15px;
+        padding: 15px;
     }
 
     .logo-text h1 {
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
+
+    .logo-text .subtitle {
+        font-size: 10px;
+        letter-spacing: 2px;
+    }
+
+    .logo-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
+
+    /* 메인 페이지 로고 */
+    #main-page .logo {
+        font-size: 36px;
+        letter-spacing: 4px;
+        margin-bottom: 10px;
+    }
+
+    #main-page .subtitle {
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    #birth-input-page .logo {
+        font-size: 36px;
+        letter-spacing: 4px;
+    }
+
+    #birth-input-page .subtitle {
+        font-size: 14px;
+        letter-spacing: 2px;
+    }
+
+    /* 운세 카드 그리드 */
+    .fortune-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 20px 15px;
+    }
+
+    .fortune-card {
+        padding: 25px 20px;
+    }
+
+    .fortune-card .icon {
+        width: 50px;
+        height: 50px;
         font-size: 24px;
     }
 
-    .main-title {
-        font-size: 32px;
+    .fortune-card h3 {
+        font-size: 18px;
+        margin: 12px 0 6px;
     }
 
-    .fortune-categories {
-        grid-template-columns: 1fr;
-        gap: 15px;
+    .fortune-card p {
+        font-size: 13px;
     }
 
-    .birth-form {
-        padding: 35px 25px;
-        margin: 30px 15px;
-    }
-
-    .fortune-content {
+    /* 입력 폼 */
+    .birth-form, .wish-form, .compatibility-form {
         padding: 30px 20px;
+        margin: 20px 10px;
+    }
+
+    .form-title {
+        font-size: 22px;
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .form-input, .form-select, .time-input {
+        font-size: 15px;
+        padding: 12px;
+    }
+
+    /* 버튼 */
+    .submit-btn, .reset-btn {
+        font-size: 15px;
+        padding: 14px 28px;
+    }
+
+    .youtube-btn {
+        font-size: 13px;
+        padding: 10px 18px;
+        gap: 6px;
+    }
+
+    .youtube-btn svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .back-btn, .btn-primary, .btn-secondary {
+        font-size: 14px;
+        padding: 12px 24px;
+    }
+
+    /* 운세 결과 */
+    .fortune-content {
+        padding: 25px 15px;
+        margin: 15px;
+    }
+
+    .fortune-title {
+        font-size: 26px;
+        margin-bottom: 25px;
+    }
+
+    .fortune-text {
+        font-size: 15px;
+        line-height: 1.9;
+    }
+
+    .highlight {
+        font-size: 16px;
     }
 
     .result-actions {
         flex-direction: column;
+        gap: 10px;
+        margin-top: 30px;
     }
 
-    .btn-secondary {
+    .result-actions button {
         width: 100%;
+        padding: 14px;
+        font-size: 15px;
     }
 
-    .intro-title {
-        font-size: 40px;
-        letter-spacing: 8px;
+    /* 궁합 점수 */
+    .compatibility-score {
+        padding: 25px 15px;
+        margin-bottom: 25px;
     }
 
-    .intro-subtitle {
-        font-size: 14px;
-    }
-
-    .intro-content {
-        padding: 40px 30px;
-        max-width: 90%;
-    }
-
-    .seal-circle {
+    .score-circle {
         width: 100px;
         height: 100px;
     }
 
+    .score-number {
+        font-size: 32px;
+    }
+
+    .score-text {
+        font-size: 13px;
+    }
+
+    .score-conclusion {
+        font-size: 18px;
+    }
+
+    /* 인트로 화면 */
+    .intro-title {
+        font-size: 36px;
+        letter-spacing: 6px;
+    }
+
+    .intro-subtitle {
+        font-size: 13px;
+        letter-spacing: 3px;
+    }
+
+    .intro-content {
+        padding: 35px 25px;
+        max-width: 95%;
+    }
+
+    .seal-circle {
+        width: 90px;
+        height: 90px;
+    }
+
     .seal-text {
-        font-size: 60px;
+        font-size: 55px;
     }
 
     .intro-decoration {
-        font-size: 30px;
+        font-size: 26px;
     }
 
     .intro-decoration.top-left,
     .intro-decoration.top-right {
-        top: 15px;
+        top: 12px;
     }
 
     .intro-decoration.bottom-left,
     .intro-decoration.bottom-right {
-        bottom: 15px;
+        bottom: 12px;
     }
 
     .intro-decoration.top-left,
     .intro-decoration.bottom-left {
-        left: 15px;
+        left: 12px;
     }
 
     .intro-decoration.top-right,
     .intro-decoration.bottom-right {
-        right: 15px;
+        right: 12px;
+    }
+
+    /* 푸터 */
+    footer {
+        padding: 25px 15px;
+        font-size: 12px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+/* 📱 초소형 모바일 (360px 이하) */
+@media (max-width: 380px) {
+    #main-page .logo {
+        font-size: 30px;
+        letter-spacing: 3px;
+    }
+
+    .fortune-card {
+        padding: 20px 15px;
+    }
+
+    .fortune-card h3 {
+        font-size: 16px;
+    }
+
+    .birth-form, .wish-form, .compatibility-form {
+        padding: 25px 15px;
+        margin: 15px 5px;
+    }
+
+    .form-title {
+        font-size: 20px;
+    }
+
+    .submit-btn, .reset-btn {
+        font-size: 14px;
+        padding: 12px 24px;
     }
 }
 
